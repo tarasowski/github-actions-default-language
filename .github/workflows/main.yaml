@@ -1,4 +1,4 @@
-name: Prüfung Bash und JS Verfügbarkeit
+name: Prüfung Bash, JS, Python, Go und C++ Verfügbarkeit
 
 on:
   push:
@@ -36,6 +36,36 @@ jobs:
           echo "Node.js ist verfügbar!"
         fi
 
+    - name: Prüfen, ob Python verfügbar ist
+      run: |
+        if ! command -v python3 &> /dev/null
+        then
+          echo "Python ist nicht installiert!"
+          exit 1
+        else
+          echo "Python ist verfügbar!"
+        fi
+
+    - name: Prüfen, ob Go verfügbar ist
+      run: |
+        if ! command -v go &> /dev/null
+        then
+          echo "Go ist nicht installiert!"
+          exit 1
+        else
+          echo "Go ist verfügbar!"
+        fi
+
+    - name: Prüfen, ob C++ (g++) verfügbar ist
+      run: |
+        if ! command -v g++ &> /dev/null
+        then
+          echo "C++ (g++) ist nicht installiert!"
+          exit 1
+        else
+          echo "C++ (g++) ist verfügbar!"
+        fi
+
     - name: Bash-Skript ausführen
       run: |
         echo "Dies ist ein Bash-Testskript"
@@ -45,3 +75,19 @@ jobs:
       run: |
         echo "console.log('Hallo von Node.js!');" > test.js
         node test.js
+
+    - name: Python-Skript ausführen
+      run: |
+        echo "print('Hallo von Python!')" > test.py
+        python3 test.py
+
+    - name: Go-Skript ausführen
+      run: |
+        echo 'package main; import "fmt"; func main() { fmt.Println("Hallo von Go!") }' > test.go
+        go run test.go
+
+    - name: C++-Programm ausführen
+      run: |
+        echo '#include <iostream> int main() { std::cout << "Hallo von C++!" << std::endl; return 0; }' > test.cpp
+        g++ test.cpp -o test
+        ./test

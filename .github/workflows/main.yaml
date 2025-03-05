@@ -1,0 +1,47 @@
+name: Prüfung Bash und JS Verfügbarkeit
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repository auschecken
+      uses: actions/checkout@v3
+
+    - name: Prüfen, ob Bash verfügbar ist
+      run: |
+        if ! command -v bash &> /dev/null
+        then
+          echo "Bash ist nicht installiert!"
+          exit 1
+        else
+          echo "Bash ist verfügbar!"
+        fi
+
+    - name: Prüfen, ob Node.js verfügbar ist
+      run: |
+        if ! command -v node &> /dev/null
+        then
+          echo "Node.js ist nicht installiert!"
+          exit 1
+        else
+          echo "Node.js ist verfügbar!"
+        fi
+
+    - name: Bash-Skript ausführen
+      run: |
+        echo "Dies ist ein Bash-Testskript"
+        bash -c "echo 'Hallo von Bash!'"
+
+    - name: JavaScript-Datei ausführen
+      run: |
+        echo "console.log('Hallo von Node.js!');" > test.js
+        node test.js
